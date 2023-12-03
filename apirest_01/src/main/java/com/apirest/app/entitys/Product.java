@@ -71,4 +71,6 @@ public class Product {
     public void setDiscount(boolean discount) {
         this.discount = discount;
     }
+
+
 }
