@@ -1,6 +1,7 @@
 package com.apirest.app.service.impl;
 
 import com.apirest.app.entitys.Product;
+import com.apirest.app.entitys.dto.ProductDTO;
 import com.apirest.app.repository.ProductRepository;
 import com.apirest.app.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,17 +17,27 @@ public class ProductServiceImpl implements ProductService {
     public ProductRepository repository;
 
     @Override
-    public Product crearProducto(Product product) {
-        //creando nuevo objeto
-        Product productNew = new Product();
-        //guardando en el nuevo objeto
-        productNew.setName(product.getName());
-        productNew.setDescription(product.getDescription());
-        productNew.setPrice(product.getPrice());
-        productNew.setAmount(product.getAmount());
-        productNew.setDiscount(product.isDiscount());
+    public ProductDTO crearProducto(ProductDTO productDTO) {
+        //convert from DTO to entity
+        Product product = new Product();
+        product.setName(productDTO.getName());
+        product.setDescription(productDTO.getDescription());
+        product.setPrice(productDTO.getPrice());
+        product.setAmount(productDTO.getAmount());
+        product.setDiscount(productDTO.isDiscount());
 
-        return repository.save(productNew);
+        Product newProduct = repository.save(product);
+
+        //convert entity to DTO
+        ProductDTO productResponse = new ProductDTO();
+        productResponse.setId(newProduct.getId());
+        productResponse.setName(newProduct.getName());
+        productResponse.setDescription(newProduct.getDescription());
+        productResponse.setPrice(newProduct.getPrice());
+        productResponse.setAmount(newProduct.getAmount());
+        productResponse.setDiscount(newProduct.isDiscount());
+
+        return productResponse;
     }
 
     @Override

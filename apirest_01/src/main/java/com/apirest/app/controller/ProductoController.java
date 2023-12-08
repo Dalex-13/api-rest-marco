@@ -2,10 +2,14 @@ package com.apirest.app.controller;
 
 
 import com.apirest.app.entitys.Product;
+import com.apirest.app.entitys.dto.ProductDTO;
 import com.apirest.app.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,8 +22,8 @@ public class ProductoController {
 
 
     @PostMapping
-    public Product guardarProducto(@RequestBody Product product){
-        return service.crearProducto(product);
+    public ResponseEntity<ProductDTO> guardarProducto(@RequestBody @Valid ProductDTO productDTO){
+        return new ResponseEntity<>(service.crearProducto(productDTO), HttpStatus.CREATED);
     }
 
     @GetMapping
